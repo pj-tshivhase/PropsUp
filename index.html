@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Props up | Fresh Food & Fast Delivery</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              500: '#f97316',
+              600: '#ea580c',
+              900: '#18181b',
+            },
+            whatsapp: {
+              500: '#25D366',
+              600: '#1ebe5d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-neutral-50 text-neutral-900 antialiased selection:bg-orange-100 selection:text-orange-900 min-h-screen flex flex-col">
+
+  <!-- =====================================================================
+       STICKY HEADER NAVIGATION
+       Left: Home link | Center: 'Props up' Brand | Right: Cart button
+  ====================================================================== -->
+  <header class="sticky top-0 z-40 w-full bg-white/85 backdrop-blur-md border-b border-neutral-200/80 transition-all">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+      
+      <!-- Left Corner: Home Button -->
+      <div class="flex-1 flex items-center justify-start">
+        <button 
+          id="nav-home-btn"
+          onclick="navigateTo('home')"
+          class="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold text-neutral-900 bg-neutral-100 hover:bg-neutral-200/80 transition-colors cursor-pointer"
+          aria-label="Go to Home Page"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Home</span>
+        </button>
+      </div>
+
+      <!-- Center: Business Name ('Props up') -->
+      <div class="flex-1 flex items-center justify-center">
+        <a 
+          href="#home" 
+          onclick="event.preventDefault(); navigateTo('home');"
+          class="group flex items-center gap-2 focus:outline-none"
+        >
+          <span class="w-8 h-8 rounded-xl bg-neutral-900 text-white flex items-center justify-center font-display font-extrabold text-base tracking-tight group-hover:bg-orange-600 transition-colors">
+            P
+          </span>
+          <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-neutral-900">
+            Props up
+          </span>
+        </a>
+      </div>
+
+      <!-- Right Corner: Cart Button with Live Badge -->
+      <div class="flex-1 flex items-center justify-end">
+        <button 
+          id="nav-cart-btn"
+          onclick="navigateTo('cart')"
+          class="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100 transition-all cursor-pointer"
+          aria-label="View Shopping Cart"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="21" r="1"/>
+            <circle cx="19" cy="21" r="1"/>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+          </svg>
+          <span class="hidden sm:inline">Cart</span>
+          <!-- Live Item Counter Badge -->
+          <span 
+            id="cart-badge" 
+            class="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 text-xs font-bold rounded-full bg-neutral-900 text-white transition-transform duration-200"
+          >
+            0
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       MAIN CONTENT AREA (Switches cleanly between Storefront & Cart Views)
+  ====================================================================== -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-10">
+
+    <!-- -------------------------------------------------------------------
+         VIEW 1: HOME PAGE (Takealot / Airbnb 1:1 Square Product Grid)
+    -------------------------------------------------------------------- -->
+    <section id="home-view" class="block">
+      <!-- Clean Minimal Storefront Intro -->
+      <div class="mb-7 sm:mb-9 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-neutral-900">
+            Fresh off the grill
+          </h1>
+          <p class="text-sm sm:text-base text-neutral-500 mt-1">
+            Tap <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-neutral-900 text-white text-xs font-bold align-middle mx-0.5">+</span> on any dish to add it to your order.
+          </p>
+        </div>
+        <div class="text-xs font-medium text-neutral-500 bg-white border border-neutral-200/80 px-3 py-1.5 rounded-full self-start sm:self-auto shadow-xs">
+          Fast WhatsApp Ordering • Midrand 44 Alsation Rd
+        </div>
+      </div>
+
+      <!-- Responsive Product Grid (2 cols on mobile, 3 on tablet, 4 on desktop) -->
+      <div 
+        id="product-grid" 
+        class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10"
+      >
+        <!-- Product cards are dynamically rendered here by JavaScript -->
+      </div>
+    </section>
+
+    <!-- -------------------------------------------------------------------
+         VIEW 2: CART PAGE (Order Summary & WhatsApp Checkout)
+    -------------------------------------------------------------------- -->
+    <section id="cart-view" class="hidden max-w-2xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="font-display font-extrabold text-2xl sm:text-3xl tracking-tight text-neutral-900">
+            Your Order
+          </h1>
+          <p class="text-sm text-neutral-500 mt-0.5">
+            Review your items before sending via WhatsApp
+          </p>
+        </div>
+        <button 
+          onclick="navigateTo('home')" 
+          class="text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors cursor-pointer"
+        >
+          + Add more food
+        </button>
+      </div>
+
+      <!-- Empty Cart State -->
+      <div id="empty-cart-state" class="hidden bg-white rounded-3xl border border-neutral-200/80 p-10 sm:p-14 text-center shadow-xs">
+        <div class="w-16 h-16 rounded-2xl bg-neutral-100 text-neutral-400 flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="21" r="1"/>
+            <circle cx="19" cy="21" r="1"/>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+          </svg>
+        </div>
+        <h2 class="font-display font-bold text-xl text-neutral-900">Your cart is empty</h2>
+        <p class="text-sm text-neutral-500 mt-1.5 max-w-xs mx-auto">
+          Looks like you haven't added any delicious food yet. Head back to the menu to pick your favorites.
+        </p>
+        <button 
+          onclick="navigateTo('home')"
+          class="mt-6 inline-flex items-center justify-center px-6 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white text-sm font-semibold transition-all cursor-pointer shadow-sm"
+        >
+          Browse Menu
+        </button>
+      </div>
+
+      <!-- Populated Cart Container -->
+      <div id="populated-cart-state" class="hidden space-y-6">
+        <!-- List of Cart Items -->
+        <div id="cart-items-list" class="bg-white rounded-3xl border border-neutral-200/80 divide-y divide-neutral-100 overflow-hidden shadow-xs">
+          <!-- Cart item rows rendered dynamically by JS -->
+        </div>
+
+        <!-- Order Total & WhatsApp Checkout Card -->
+        <div class="bg-white rounded-3xl border border-neutral-200/80 p-6 sm:p-7 shadow-xs space-y-5">
+          <div class="flex items-center justify-between text-sm text-neutral-500">
+            <span>Items selected</span>
+            <span id="cart-total-items" class="font-medium text-neutral-900">0 items</span>
+          </div>
+
+          <div class="border-t border-neutral-100 pt-4 flex items-baseline justify-between">
+            <span class="text-base font-semibold text-neutral-900">Total</span>
+            <span id="cart-total-price" class="font-display font-extrabold text-2xl sm:text-3xl text-neutral-900">
+              R0.00
+            </span>
+          </div>
+
+          <!-- Primary WhatsApp Checkout Button -->
+          <button 
+            id="whatsapp-order-btn"
+            onclick="placeOrderOnWhatsApp()"
+            class="w-full py-4 px-6 rounded-2xl bg-whatsapp-500 hover:bg-whatsapp-600 active:scale-[0.99] text-white font-bold text-base flex items-center justify-center gap-3 shadow-md shadow-emerald-500/20 transition-all cursor-pointer"
+          >
+            <!-- WhatsApp SVG Icon -->
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.473 1.331 4.988L2 22l5.188-1.361a9.927 9.927 0 0 0 4.843 1.258h.004c5.515 0 9.968-4.453 9.968-9.969 0-2.663-1.037-5.167-2.92-7.05A9.903 9.903 0 0 0 12.031 2zm5.822 14.287c-.246.693-1.434 1.325-1.992 1.409-.513.077-1.161.109-1.874-.117-.434-.138-.99-.322-1.703-.63-2.996-1.294-4.953-4.311-5.103-4.511-.15-.2-1.219-1.622-1.219-3.094 0-1.472.771-2.196 1.045-2.496.274-.3.598-.375.797-.375.199 0 .399.002.573.01.184.009.43-.07.673.514.249.6.847 2.071.922 2.221.075.15.125.325.025.525-.1.2-.15.325-.299.5-.15.175-.315.39-.449.525-.15.15-.306.312-.131.612.175.3.776 1.281 1.667 2.075 1.146 1.022 2.112 1.339 2.411 1.489.299.15.474.125.648-.075.175-.2.748-.874.947-1.174.2-.3.399-.25.673-.15.274.1 1.745.823 2.044.973.299.15.499.225.573.35.075.125.075.724-.171 1.417z"/>
+            </svg>
+            <span>Place order on WhatsApp</span>
+          </button>
+
+          <p class="text-xs text-center text-neutral-400">
+            You'll be redirected to WhatsApp with your pre-filled order message.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       SUBTLE FLOATING TOAST NOTIFICATION (When adding items to cart)
+  ====================================================================== -->
+  <div 
+    id="toast" 
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-4 transition-all duration-300"
+  >
+    <div class="bg-neutral-900 text-white px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2.5 text-sm font-medium">
+      <span class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold">✓</span>
+      <span id="toast-message">Added to cart</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       FOOTER
+  ====================================================================== -->
+  <footer class="border-t border-neutral-200/80 bg-white mt-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-neutral-500">
+      <span class="font-semibold text-neutral-800">Props up • Midrand 44 Alsation Rd</span>
+      <span>Freshly prepared & ordered seamlessly via WhatsApp.</span>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       APPLICATION JAVASCRIPT
+  ====================================================================== -->
+  <script>
+    /**
+     * =====================================================================
+     * DEVELOPER CONFIGURATION
+     * WhatsApp phone number from menu poster: 065 642 0161 -> 27656420161
+     * =====================================================================
+     */
+    const WHATSAPP_NUMBER = '27656420161';
+
+    /**
+     * =====================================================================
+     * MENU CATALOG DATA
+     * Exact items, names, and prices from the Props Up menu poster
+     * =====================================================================
+     */
+    const MENU_ITEMS = [
+      // CHIPS MEALS
+      {
+        id: 'burger-chips-salad',
+        name: 'BURGER & CHIPS SALAD',
+        price: 70.00,
+        image: 'burger-chips-salad.jpg'
+      },
+      {
+        id: 'bwors-chips-salad',
+        name: 'B/wors & CHIPS SALAD',
+        price: 70.00,
+        image: 'bwors-chips-salad.jpg'
+      },
+      {
+        id: 'wings-chips-salad',
+        name: 'WINGS & CHIPS SALAD',
+        price: 80.00,
+        image: 'wings-chips-salad.jpg'
+      },
+      {
+        id: 'tbone-chips-salad',
+        name: 'T BONE & CHIPS SALAD',
+        price: 90.00,
+        image: 'tbone-chips-salad.jpg'
+      },
+
+      // PROPS UP KOTAS MEALS
+      {
+        id: 'props-up-kota',
+        name: 'PROPS UP KOTA',
+        price: 70.00,
+        image: 'props-up-kota.jpg'
+      },
+      {
+        id: 'moja-kota',
+        name: 'MOJA KOTA',
+        price: 40.00,
+        image: 'moja-kota.jpg'
+      },
+
+      // BOEREWORS ROLLS
+      {
+        id: 'budget-boerewors',
+        name: 'BUDGET BOEREWORS',
+        price: 35.00,
+        image: 'budget-boerewors.jpg'
+      },
+      {
+        id: 'best-boerewors',
+        name: 'BEST BOEREWORS',
+        price: 40.00,
+        image: 'best-boerewors.jpg'
+      },
+      {
+        id: 'legend-boerewors',
+        name: 'LEGEND BOEREWORS',
+        price: 45.00,
+        image: 'legend-boerewors.jpg'
+      },
+      {
+        id: 'chilli-masala-boerewors',
+        name: 'CHILLI MASALA BOEREWORS',
+        price: 60.00,
+        image: 'chilli-masala-boerewors.jpg'
+      },
+      {
+        id: 'cheese-griller-boerewors',
+        name: 'CHEESE GRILLER BOEREWORS',
+        price: 65.00,
+        image: 'cheese-griller-boerewors.jpg'
+      },
+      {
+        id: 'props-up-boerewors',
+        name: 'PROPS UP BOEREWORS',
+        price: 75.00,
+        image: 'props-up-boerewors.jpg'
+      },
+
+      // BEEF & CHICKEN BURGERS
+      {
+        id: 'standard-burger',
+        name: 'Standard BURGER',
+        price: 35.00,
+        image: 'standard-burger.jpg'
+      },
+      {
+        id: 'double-burger',
+        name: 'DOUBLE BURGER',
+        price: 60.00,
+        image: 'double-burger.jpg'
+      },
+      {
+        id: 'props-up-burger',
+        name: 'PROPS UP BURGER',
+        price: 90.00,
+        image: 'props-up-burger.jpg'
+      },
+      {
+        id: 'standard-burger-egg',
+        name: 'Standard BURGER & Egg',
+        price: 60.00,
+        image: 'standard-burger-egg.jpg'
+      },
+      {
+        id: 'double-burger-egg',
+        name: 'DOUBLE BURGER & Egg',
+        price: 90.00,
+        image: 'double-burger-egg.jpg'
+      },
+      {
+        id: 'props-up-burger-egg',
+        name: 'PROPS UP BURGER & Egg',
+        price: 120.00,
+        image: 'props-up-burger-egg.jpg'
+      },
+
+      // CHIPS, FULL CHICKEN & HOT BEVERAGES
+      {
+        id: 'small-fries',
+        name: 'Small Fries',
+        price: 30.00,
+        image: 'fries.jpg'
+      },
+      {
+        id: 'medium-fries',
+        name: 'Medium Fries',
+        price: 40.00,
+        image: 'fries.jpg'
+      },
+      {
+        id: 'large-fries',
+        name: 'Large Fries',
+        price: 60.00,
+        image: 'fries.jpg'
+      },
+      {
+        id: 'full-chicken',
+        name: 'Full Chicken',
+        price: 160.00,
+        image: 'full-chicken.jpg'
+      },
+      {
+        id: 'hot-beverage-small',
+        name: 'HOT BEVERAGE/CUP SMALL (Coffee/Cappuccino/Espresso)',
+        price: 25.00,
+        image: 'hot-beverage.jpg'
+      },
+      {
+        id: 'hot-beverage-big',
+        name: 'HOT BEVERAGE/CUP BIG (Coffee/Cappuccino/Espresso)',
+        price: 30.00,
+        image: 'hot-beverage.jpg'
+      }
+    ];
+
+    /**
+     * =====================================================================
+     * APPLICATION STATE
+     * Stores cart items as an array of { id, name, price, image, quantity }
+     * =====================================================================
+     */
+    let cart = [];
+    let toastTimeout = null;
+
+    /**
+     * Format a numeric price into South African Rand (e.g., 95 -> "R95.00")
+     */
+    function formatPrice(amount) {
+      return `R${amount.toFixed(2)}`;
+    }
+
+    /**
+     * =====================================================================
+     * NAVIGATION (Switches between 'home' and 'cart' views)
+     * =====================================================================
+     */
+    function navigateTo(view) {
+      const homeView = document.getElementById('home-view');
+      const cartView = document.getElementById('cart-view');
+      const homeBtn = document.getElementById('nav-home-btn');
+      const cartBtn = document.getElementById('nav-cart-btn');
+
+      if (view === 'cart') {
+        homeView.classList.add('hidden');
+        cartView.classList.remove('hidden');
+
+        // Update active button styles in header
+        homeBtn.classList.remove('bg-neutral-100', 'text-neutral-900');
+        homeBtn.classList.add('text-neutral-600', 'hover:bg-neutral-100');
+
+        cartBtn.classList.add('bg-neutral-100', 'text-neutral-900');
+        cartBtn.classList.remove('text-neutral-700');
+
+        renderCart();
+      } else {
+        cartView.classList.add('hidden');
+        homeView.classList.remove('hidden');
+
+        // Update active button styles in header
+        homeBtn.classList.add('bg-neutral-100', 'text-neutral-900');
+        homeBtn.classList.remove('text-neutral-600');
+
+        cartBtn.classList.remove('bg-neutral-100', 'text-neutral-900');
+        cartBtn.classList.add('text-neutral-700');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * =====================================================================
+     * STOREFRONT RENDERING (Takealot / Airbnb 1:1 Square Grid)
+     * =====================================================================
+     */
+    function renderMenu() {
+      const grid = document.getElementById('product-grid');
+
+      grid.innerHTML = MENU_ITEMS.map(item => `
+        <article class="group flex flex-col">
+          <!-- 1:1 Aspect Ratio Image Container -->
+          <div class="relative aspect-square w-full overflow-hidden rounded-2xl bg-neutral-200 shadow-xs">
+            <img 
+              src="${item.image}" 
+              alt="${item.name}"
+              loading="lazy"
+              onerror="this.src='https://placehold.co/600x600/f4f4f5/52525b?text=${encodeURIComponent(item.name)}'"
+              class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+            />
+            
+            <!-- Floating '+' Add to Cart Button in Bottom-Right Corner -->
+            <button
+              type="button"
+              onclick="addToCart('${item.id}')"
+              aria-label="Add ${item.name} to cart"
+              class="absolute bottom-3 right-3 w-10 h-10 rounded-full bg-white/95 hover:bg-neutral-900 text-neutral-900 hover:text-white shadow-md backdrop-blur-xs flex items-center justify-center transition-all duration-200 active:scale-90 cursor-pointer border border-neutral-200/60"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dish Name & Price Beneath Image -->
+          <div class="pt-3 flex flex-col gap-0.5">
+            <h2 class="font-semibold text-sm sm:text-base text-neutral-900 leading-snug line-clamp-1 group-hover:text-orange-600 transition-colors">
+              ${item.name}
+            </h2>
+            <p class="font-bold text-sm sm:text-base text-neutral-600">
+              ${formatPrice(item.price)}
+            </p>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    /**
+     * =====================================================================
+     * CART OPERATIONS (Add, Update Quantity, Remove, Update Badge)
+     * =====================================================================
+     */
+    function addToCart(itemId) {
+      const product = MENU_ITEMS.find(item => item.id === itemId);
+      if (!product) return;
+
+      const existingItem = cart.find(item => item.id === itemId);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      updateCartBadge();
+      showToast(`Added ${product.name}`);
+    }
+
+    function updateQuantity(itemId, delta) {
+      const itemIndex = cart.findIndex(item => item.id === itemId);
+      if (itemIndex === -1) return;
+
+      cart[itemIndex].quantity += delta;
+
+      if (cart[itemIndex].quantity <= 0) {
+        cart.splice(itemIndex, 1);
+      }
+
+      updateCartBadge();
+      renderCart();
+    }
+
+    function removeItem(itemId) {
+      cart = cart.filter(item => item.id !== itemId);
+      updateCartBadge();
+      renderCart();
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cart-badge');
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+      badge.textContent = totalCount;
+
+      // Subtle pop animation on the badge
+      badge.classList.add('scale-125', 'bg-orange-600');
+      setTimeout(() => {
+        badge.classList.remove('scale-125', 'bg-orange-600');
+      }, 220);
+    }
+
+    /**
+     * =====================================================================
+     * CART PAGE RENDERING
+     * =====================================================================
+     */
+    function renderCart() {
+      const emptyState = document.getElementById('empty-cart-state');
+      const populatedState = document.getElementById('populated-cart-state');
+      const itemsList = document.getElementById('cart-items-list');
+      const totalItemsEl = document.getElementById('cart-total-items');
+      const totalPriceEl = document.getElementById('cart-total-price');
+
+      if (cart.length === 0) {
+        emptyState.classList.remove('hidden');
+        populatedState.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      populatedState.classList.remove('hidden');
+
+      let totalQuantity = 0;
+      let totalAmount = 0;
+
+      itemsList.innerHTML = cart.map(item => {
+        const subtotal = item.price * item.quantity;
+        totalQuantity += item.quantity;
+        totalAmount += subtotal;
+
+        return `
+          <div class="p-4 sm:p-5 flex items-center gap-4">
+            <!-- 1:1 Item Thumbnail -->
+            <img 
+              src="${item.image}" 
+              alt="${item.name}"
+              onerror="this.src='https://placehold.co/200x200/f4f4f5/52525b?text=Food'"
+              class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover bg-neutral-100 shrink-0"
+            />
+
+            <!-- Item Details -->
+            <div class="flex-grow min-w-0">
+              <h3 class="font-semibold text-sm sm:text-base text-neutral-900 truncate">
+                ${item.name}
+              </h3>
+              <p class="text-xs sm:text-sm text-neutral-500 mt-0.5">
+                ${formatPrice(item.price)} each
+              </p>
+
+              <!-- Quantity Controls -->
+              <div class="flex items-center gap-3 mt-2.5">
+                <div class="inline-flex items-center rounded-xl border border-neutral-200 bg-neutral-50 p-0.5">
+                  <button 
+                    onclick="updateQuantity('${item.id}', -1)"
+                    aria-label="Decrease quantity"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center text-neutral-700 hover:bg-white hover:shadow-2xs transition-all cursor-pointer font-bold"
+                  >
+                    −
+                  </button>
+                  <span class="w-8 text-center text-xs sm:text-sm font-bold text-neutral-900">
+                    ${item.quantity}
+                  </span>
+                  <button 
+                    onclick="updateQuantity('${item.id}', 1)"
+                    aria-label="Increase quantity"
+                    class="w-7 h-7 rounded-lg flex items-center justify-center text-neutral-700 hover:bg-white hover:shadow-2xs transition-all cursor-pointer font-bold"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <button 
+                  onclick="removeItem('${item.id}')"
+                  class="text-xs font-medium text-neutral-400 hover:text-red-600 transition-colors cursor-pointer"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+
+            <!-- Item Subtotal -->
+            <div class="text-right shrink-0">
+              <span class="font-bold text-sm sm:text-base text-neutral-900">
+                ${formatPrice(subtotal)}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      totalItemsEl.textContent = `${totalQuantity} ${totalQuantity === 1 ? 'item' : 'items'}`;
+      totalPriceEl.textContent = formatPrice(totalAmount);
+    }
+
+    /**
+     * =====================================================================
+     * WHATSAPP ORDER MESSAGE GENERATOR & REDIRECT
+     * Builds the exact message requested:
+     * "Hey there, i would like to order:
+     * - [Item Name] (x[Qty]) - R[Subtotal]
+     * ...
+     * My total is R[Total]"
+     * =====================================================================
+     */
+    function placeOrderOnWhatsApp() {
+      if (cart.length === 0) return;
+
+      let totalAmount = 0;
+      const itemLines = cart.map(item => {
+        const subtotal = item.price * item.quantity;
+        totalAmount += subtotal;
+        return `- ${item.name} (x${item.quantity}) - ${formatPrice(subtotal)}`;
+      });
+
+      const message = [
+        'Hey there, i would like to order:',
+        ...itemLines,
+        `My total is ${formatPrice(totalAmount)}`
+      ].join('\n');
+
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/+27656420161?text=${encodedMessage}`;
+
+      // Open WhatsApp in a new tab/window
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    /**
+     * =====================================================================
+     * TOAST FEEDBACK HELPER
+     * =====================================================================
+     */
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+
+      toastMsg.textContent = text;
+      toast.classList.remove('opacity-0', 'translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-4');
+      }, 2000);
+    }
+
+    // Initialize the storefront on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMenu();
+    });
+  </script>
+</body>
+</html>
